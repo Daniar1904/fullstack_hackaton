@@ -5,7 +5,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from account.send_mail import send_notification
 
-
 User = get_user_model()
 
 STATUS_CHOICES = (
