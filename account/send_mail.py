@@ -7,7 +7,17 @@ def send_confirmation_email(user, code):
     send_mail(
         'Здравствуйте, активируйте ваш аккаунт!',
         f'Чтобы активировать ваш аккаунт нужно перейти по ссылке: \n{full_link}\n{full_link_server}',
-        'panda.takumi@gmail.com',
+        'sanzhar.turumov@gmail.com',
         [user],
+        fail_silently=False
+    )
+
+def send_notification(user_email, order_id, price):
+    send_mail(
+        'Уведомление о создании заказа.',
+        f'''Вы создали заказ №{order_id}, ожидайте звонка!\nПолная стоимость вашего заказа - {price}.
+        Спасибо, что выбрали нас!''',
+        'from@example.com',
+        [user_email],
         fail_silently=False
     )
