@@ -11,3 +11,14 @@ def send_confirmation_email(user, code):
         [user],
         fail_silently=False
     )
+
+
+def send_notification(user_email, order_id, price):
+    send_mail(
+        'Уведомление о создании заказа.',
+        f'''Вы создали заказ №{order_id}, ожидайте звонка!\nПолная стоимость вашего заказа - {price}.
+        Спасибо, что выбрали нас!''',
+        'from@example.com',
+        [user_email],
+        fail_silently=False
+    )
