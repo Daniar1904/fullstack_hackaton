@@ -33,7 +33,7 @@ class Order(models.Model):
     def __str__(self):
         return f'{self.id} -> {self.user}'
 
-
+#
 @receiver(post_save, sender=Order)
 def order_post_save(sender, instance, *args, **kwargs):
     send_notification(instance.user.email, instance.id, instance.total_sum)

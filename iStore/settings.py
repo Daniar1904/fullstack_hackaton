@@ -213,5 +213,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #         'width': 300,
 #     },
 # }
-#
+
 # CORS_ALLOW_ALL_ORIGINS = True
+
+# SWAGGER_SETTINGS = {"DEFAULT_GENERATOR_CLASS": "rest_framework.schemas.generators.BaseSchemaGenerator",}
