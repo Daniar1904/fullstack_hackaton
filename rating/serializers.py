@@ -9,7 +9,7 @@ class ReviewActionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = 'all'  # rating text
+        fields = '__all__'  # rating text
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -17,7 +17,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = 'all'  # rating text
+        fields = '__all__'  # rating text
 
     def validate(self, attrs):
         request = self.context['request']
@@ -34,4 +34,4 @@ class ReviewUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = 'all'
+        fields = '__all__'
