@@ -6,7 +6,7 @@ from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .send_mail import send_confirmation_email
+from .send_mail import send_confirmation_email, send_reset_email
 from . import serializers
 
 
