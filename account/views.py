@@ -24,9 +24,7 @@ class RegistrationView(APIView):
                 try:
                     send_confirmation_email(user.email, user.activation_code)
                 except:
-                    return Response(
-                        {
-                            'msg': 'Registered, but troubles with email!',
+                    return Response({'msg': 'Registered, but troubles with email!',
                             'data': serializer.data}, status=201)
             return Response(serializer.data, status=201)
         return Response('Bad request', status=400)
