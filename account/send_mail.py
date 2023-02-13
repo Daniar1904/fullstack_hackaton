@@ -7,7 +7,7 @@ def send_confirmation_email(user, code):
     send_mail(
         'Здравствуйте, активируйте ваш аккаунт!',
         f'Чтобы активировать ваш аккаунт нужно перейти по ссылке: \n{full_link}\n{full_link_server}',
-        'kazakovdanier24@gmail.com',
+        'kazakovdaniar24@gmail.com',
         [user],
         fail_silently=False
     )
