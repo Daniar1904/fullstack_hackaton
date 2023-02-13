@@ -23,7 +23,7 @@ class ProductViewSet(ModelViewSet):
 
     def get_permissions(self):
         if self.action in ('update', 'partial_update', 'destroy'):
-            return [permissions.IsAuthenticated(), IsAuthor]
+            return [permissions.IsAuthenticated(), IsAuthor()]
         return [permissions.IsAuthenticatedOrReadOnly()]
 
     @action(['GET', 'POST'], detail=True)
