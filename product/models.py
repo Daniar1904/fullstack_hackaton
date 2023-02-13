@@ -28,7 +28,7 @@ class Product(models.Model):
 
 
 class Comment(models.Model):
-    owner = models.ForeignKey('auth.CustomUser', related_name='comments',
+    owner = models.ForeignKey('account.CustomUser', related_name='comments',
                                   on_delete=models.CASCADE)
     product = models.ForeignKey(Product, related_name='comments',
                                  on_delete=models.CASCADE)
@@ -40,7 +40,7 @@ class Comment(models.Model):
 
 
 class Like(models.Model):
-    owner = models.ForeignKey('auth.CustomUser', on_delete=models.CASCADE,
+    owner = models.ForeignKey('account.CustomUser', on_delete=models.CASCADE,
                               related_name='liked_products')
     product = models.ForeignKey(Product, on_delete=models.CASCADE,
                              related_name='likes')
@@ -50,7 +50,7 @@ class Like(models.Model):
 
 
 class Favorites(models.Model):
-    owner = models.ForeignKey('auth.CustomUser', on_delete=models.CASCADE,
+    owner = models.ForeignKey('account.CustomUser', on_delete=models.CASCADE,
                               related_name='favorites')
     product = models.ForeignKey(Product, on_delete=models.CASCADE,
                              related_name='favorites')

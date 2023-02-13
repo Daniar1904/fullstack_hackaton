@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import permissions, response, generics
 from rest_framework.decorators import action
 
+from rating.serializers import ReviewActionSerializer
 from . import serializers
 from rest_framework.viewsets import ModelViewSet
 

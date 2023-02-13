@@ -1,5 +1,7 @@
 from django.db.models import Avg
 from rest_framework import serializers
+
+from rating.serializers import ReviewSerializer
 from .models import Product, Comment, Like, Favorites
 
 
@@ -8,7 +10,7 @@ class ProductListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('owner', 'owner_email', 'title', 'price', 'image', 'stock')
+        fields = ('owner', 'category', 'owner_email', 'title', 'price', 'image', 'stock')
 
     def to_representation(self, instance):
         repr = super().to_representation(instance)
