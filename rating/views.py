@@ -33,3 +33,4 @@ class ReviewUpdateDeleteApiView(UpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = serializers.ReviewUpdateSerializer
     permission_classes = (permissions.IsAuthenticated, IsAuthor)
+

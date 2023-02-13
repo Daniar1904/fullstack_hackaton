@@ -24,4 +24,3 @@ class Review(models.Model):
 
     class Meta:
         unique_together = ['owner', 'product']
-
