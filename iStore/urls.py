@@ -49,6 +49,7 @@ urlpatterns = [
     path('api/v1/accounts/', include('account.urls')),
     path('api/v1/orders/', include('order.urls')),
     path('api/v1/review/', include('rating.urls')),
+    path('api/v1/products/', include('product.urls')),
     path('api/v1/', include(router.urls)),
 ]
 

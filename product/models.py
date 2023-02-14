@@ -27,6 +27,21 @@ class Product(models.Model):
         return self.title
 
 
+class ProductImages(models.Model):
+    title = models.CharField(max_length=100, blank=True)
+    image = models.ImageField(upload_to='images/')
+    post = models.ForeignKey(Product, on_delete=models.CASCADE,
+                             related_name='images')
+
+    def generate_name(self):
+        from random import randint
+        return 'image' + str(self.id) + str(randint(100000, 1_000_000))
+
+    def save(self, *args, **kwargs):
+        self.title = self.generate_name()
+        return super(ProductImages, self).save(*args, **kwargs)
+
+
 class Comment(models.Model):
     owner = models.ForeignKey('account.CustomUser', related_name='comments',
                                   on_delete=models.CASCADE)
