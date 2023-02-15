@@ -2,7 +2,7 @@ from django.db.models import Avg
 from rest_framework import serializers
 
 from rating.serializers import ReviewSerializer
-from .models import Product, Comment, Like, Favorites
+from .models import Product, Comment, Like, Favorites, ProductImages
 
 
 class ProductListSerializer(serializers.ModelSerializer):
@@ -10,13 +10,73 @@ class ProductListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('owner', 'category', 'owner_email', 'title', 'price', 'image', 'stock')
+        fields = ('owner', 'category', 'owner_email', 'title', 'price', 'image', 'stock', 'description')
 
     def to_representation(self, instance):
         repr = super().to_representation(instance)
         print(instance, '!!!!!!')
         repr['rating'] = instance.reviews.aggregate(Avg('rating'))['rating__avg']
         return repr
+
+        # def to_representation(self, instance):
+    #     repr = super().to_representation(instance)
+    #     repr['rating'] = instance.reviews.aggregate(Avg('rating'))['rating__avg']
+    #     repr['comments_count'] = instance.comments.count()
+    #     repr['comments'] = CommentSerializer(instance.comments.all(),
+    #                                         many=True).data
+    #     repr['images'] = PostImageSerializer(instance.images.all(),
+    #                                         many=True).data
+    #     repr['likes_count'] = instance.likes.count()
+    #     repr['liked_users'] = LikeSerializer(instance=instance.likes.all(),
+    #                                         many=True).data
+    #     return repr
+
+class ProductDetailSerializer(serializers.ModelSerializer):
+    owner_username = serializers.ReadOnlyField(source='owner.username')
+    category_name = serializers.ReadOnlyField(source='category.name')
+
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep['comments_count'] = instance.comments.count()
+        rep['comments'] = CommentSerializer(instance.comments.all(),
+                                            many=True).data
+        rep['images'] = PostImageSerializer(instance.images.all(),
+                                            many=True).data
+        rep['likes_count'] = instance.likes.count()
+        rep['liked_users'] = LikeSerializer(instance=instance.likes.all(),
+                                            many=True).data
+        return rep
+
+
+class PostImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImages
+        fields = '__all__'
+
+
+# class ProductDetailSerializer(serializers.ModelSerializer):
+#     owner_username = serializers.ReadOnlyField(source='owner.username')
+#     category_name = serializers.ReadOnlyField(source='category.name')
+#
+#     class Meta:
+#         model = Product
+#         fields = '__all__'
+#
+#     def to_representation(self, instance):
+#         rep = super().to_representation(instance)
+#         rep['comments_count'] = instance.comments.count()
+#         rep['comments'] = CommentSerializer(instance.comments.all(),
+#                                             many=True).data
+#         rep['images'] = PostImageSerializer(instance.images.all(),
+#                                             many=True).data
+#         rep['likes_count'] = instance.likes.count()
+#         rep['liked_users'] = LikeSerializer(instance=instance.likes.all(),
+#                                             many=True).data
+#         return rep
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -61,13 +121,13 @@ class LikeSerializer(serializers.ModelSerializer):
         model = Like
         fields = '__all__'
 
-    def validate(self, attrs):
-        request = self.context['request']
-        user = request.user
-        product = attrs['product']
-        if user.liked_products.filter(product=product).exists():
-            raise serializers.ValidationError('You already liked this post!')
-        return
+    # def validate(self, attrs):
+    #     request = self.context['request']
+    #     user = request.user
+    #     product = attrs['product']
+    #     if user.liked_products.filter(product=product).exists():
+    #         raise serializers.ValidationError('You already liked this post!')
+    #     return
 
 
 class FavoriteProductSerializer(serializers.ModelSerializer):
