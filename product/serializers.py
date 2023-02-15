@@ -79,6 +79,33 @@ class PostImageSerializer(serializers.ModelSerializer):
 #         return rep
 
 
+class ProductDetailSerializer(serializers.ModelSerializer):
+    owner_username = serializers.ReadOnlyField(source='owner.username')
+    category_name = serializers.ReadOnlyField(source='category.name')
+
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep['comments_count'] = instance.comments.count()
+        rep['comments'] = CommentSerializer(instance.comments.all(),
+                                            many=True).data
+        rep['images'] = PostImageSerializer(instance.images.all(),
+                                            many=True).data
+        rep['likes_count'] = instance.likes.count()
+        rep['liked_users'] = LikeSerializer(instance=instance.likes.all(),
+                                            many=True).data
+        return rep
+
+
+class PostImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImages
+        fields = '__all__'
+
+
 class ProductSerializer(serializers.ModelSerializer):
     owner_email = serializers.ReadOnlyField(source='owner.email')
     owner = serializers.ReadOnlyField(source='owner.id')
