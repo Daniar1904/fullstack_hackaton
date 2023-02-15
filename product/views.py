@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import render
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions, response, generics
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter

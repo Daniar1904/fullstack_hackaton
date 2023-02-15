@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_yasg',
     'ckeditor',
-    'corsheaders',
+    # 'corsheaders',
 
     #   my_apps
     'account',
@@ -172,7 +172,6 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': True,
 
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,
