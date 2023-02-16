@@ -14,3 +14,4 @@ urlpatterns = [
     path('likes/', views.LikeCreateView.as_view()),
     path('favorite-products/', views.FavoriteCreateView.as_view()),
 ]
+

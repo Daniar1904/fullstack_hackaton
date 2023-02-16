@@ -36,4 +36,4 @@ class Order(models.Model):
 #
 @receiver(post_save, sender=Order)
 def order_post_save(sender, instance, *args, **kwargs):
-    send_notification(instance.user.email, instance.id, instance.total_sum)
+    send_notification.delay(instance.user.email, instance.id, instance.total_sum)
