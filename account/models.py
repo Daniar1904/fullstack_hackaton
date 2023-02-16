@@ -44,7 +44,7 @@ class CustomUser(AbstractUser):
     is_active = models.BooleanField(_('active'), default=False,
                                     help_text=_(
                                         "Designates whether this user should be treated as active. "
-                                        "Unselect this instead of deleting accounts."))
+                                        "Unselect this instead of deleting account."))
 
     objects = UserManager()
 
