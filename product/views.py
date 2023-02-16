@@ -36,9 +36,7 @@ class ProductViewSet(ModelViewSet):
 
     def get_permissions(self):
         if self.action in ('update', 'partial_update', 'destroy'):
-
-            return [permissions.IsAuthenticated(), IsAuthor]
-
+            return [permissions.IsAuthenticated(), IsAuthor()]
         return [permissions.IsAuthenticatedOrReadOnly()]
 
     @action(['GET', 'POST'], detail=True)
@@ -96,4 +94,5 @@ class FavoriteCreateView(generics.CreateAPIView):
     serializer_class = serializers.FavoriteProductSerializer
 
     def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
         serializer.save(owner=self.request.user)

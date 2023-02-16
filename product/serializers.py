@@ -1,8 +1,11 @@
 from django.db.models import Avg
 from rest_framework import serializers
+from .models import Product, Comment, Like, Favorites
+
 
 from rating.serializers import ReviewSerializer
 from .models import Product, Comment, Like, Favorites, ProductImages
+
 
 
 class ProductListSerializer(serializers.ModelSerializer):
@@ -147,6 +150,15 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = '__all__'
+
+
+    def validate(self, attrs):
+        request = self.context['request']
+        user = request.user
+        product = attrs['product']
+        if user.liked_products.filter(product=product).exists():
+            raise serializers.ValidationError('You already liked this post!')
+        return
 
     # def validate(self, attrs):
     #     request = self.context['request']

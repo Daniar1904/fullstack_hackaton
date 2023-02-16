@@ -32,6 +32,7 @@ class RegistrationView(APIView):
             return Response(serializer.data, status=201)
         return Response('Bad request', status=400)
 
+
 class ActivationView(APIView):
     permission_classes = (permissions.AllowAny,)
 
@@ -63,6 +64,7 @@ class LogoutView(GenericAPIView):
 class ForgotPasswordView(APIView):
     permission_classes = (permissions.AllowAny, )
 
+    @swagger_auto_schema(request_body=serializers.ForgotPasswordSerializer())
     def post(self, request):
         serializer = serializers.ForgotPasswordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -80,6 +82,7 @@ class ForgotPasswordView(APIView):
 class RestorePasswordView(APIView):
     permission_classes = (permissions.AllowAny, )
 
+    @swagger_auto_schema(request_body=serializers.RestorePasswordSerializer())
     def post(self, request):
         serializer = serializers.RestorePasswordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
