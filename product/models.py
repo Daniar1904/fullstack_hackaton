@@ -19,6 +19,8 @@ class Product(models.Model):
     description = RichTextField()
     category = models.ForeignKey(Category, related_name='product', on_delete=models.RESTRICT)
     image = models.ImageField(upload_to='image')
+    category = models.ForeignKey(Category, related_name='products', on_delete=models.RESTRICT)
+    image = models.ImageField(upload_to='images')
     price = models.DecimalField(max_digits=12, decimal_places=2)
     stock = models.CharField(choices=STATUS_CHOICES, max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -32,11 +34,33 @@ class Comment(models.Model):
                                 on_delete=models.CASCADE)
     product = models.ForeignKey(Product, related_name='comments',
                                 on_delete=models.CASCADE)
+
+class ProductImages(models.Model):
+    title = models.CharField(max_length=100, blank=True)
+    image = models.ImageField(upload_to='images/')
+    post = models.ForeignKey(Product, on_delete=models.CASCADE,
+                             related_name='images')
+
+    def generate_name(self):
+        from random import randint
+        return 'image' + str(self.id) + str(randint(100000, 1_000_000))
+
+    def save(self, *args, **kwargs):
+        self.title = self.generate_name()
+        return super(ProductImages, self).save(*args, **kwargs)
+
+
+class Comment(models.Model):
+    owner = models.ForeignKey('account.CustomUser', related_name='comments',
+                                  on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name='comments',
+                                 on_delete=models.CASCADE)
     body = models.TextField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.owner} -> {self.product} -> {self.created_at}'
+
 
 class Like(models.Model):
     owner = models.ForeignKey('account.CustomUser', on_delete=models.CASCADE,
@@ -44,14 +68,29 @@ class Like(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE,
                                 related_name='likes')
 
+
+class Like(models.Model):
+    owner = models.ForeignKey('account.CustomUser', on_delete=models.CASCADE,
+                              related_name='liked_products')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,
+                             related_name='likes')
+
     class Meta:
         unique_together = ['owner', 'product']
+
 
 class Favorites(models.Model):
     owner = models.ForeignKey('account.CustomUser', on_delete=models.CASCADE,
                                 related_name='favorites')
     product = models.ForeignKey(Product, on_delete=models.CASCADE,
                                 related_name='favorites')
+
+
+class Favorites(models.Model):
+    owner = models.ForeignKey('account.CustomUser', on_delete=models.CASCADE,
+                              related_name='favorites')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,
+                              related_name='favorites')
 
     class Meta:
         unique_together = ['owner', 'product']

@@ -1,6 +1,11 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import render
+
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions, response, generics
 from rest_framework.decorators import action
+from rest_framework.filters import SearchFilter
+from rest_framework.pagination import PageNumberPagination
 
 from rating.serializers import ReviewActionSerializer
 from . import serializers
@@ -10,8 +15,16 @@ from product.models import Product, Comment, Like
 from .permissions import IsAuthor
 
 
+class StandartResultPagination(PageNumberPagination):
+    page_size = 2
+    page_query_param = 'page'
+
+
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
+    pagination_class = StandartResultPagination
+    filter_backends = (SearchFilter, DjangoFilterBackend)
+    search_fields = ('title',)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -19,7 +32,7 @@ class ProductViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return serializers.ProductListSerializer
-        return serializers.ProductSerializer
+        return serializers.ProductDetailSerializer
 
     def get_permissions(self):
         if self.action in ('update', 'partial_update', 'destroy'):
@@ -62,6 +75,7 @@ class CommentCreateView(generics.CreateAPIView):
         serializer.save(owner=self.request.user)
 
 
+
 class LikeCreateView(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = serializers.LikeSerializer
@@ -80,4 +94,5 @@ class FavoriteCreateView(generics.CreateAPIView):
     serializer_class = serializers.FavoriteProductSerializer
 
     def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
         serializer.save(owner=self.request.user)
