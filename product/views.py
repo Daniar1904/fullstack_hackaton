@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import render
+
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions, response, generics
 from rest_framework.decorators import action
@@ -35,7 +36,9 @@ class ProductViewSet(ModelViewSet):
 
     def get_permissions(self):
         if self.action in ('update', 'partial_update', 'destroy'):
-            return [permissions.IsAuthenticated(), IsAuthor()]
+
+            return [permissions.IsAuthenticated(), IsAuthor]
+
         return [permissions.IsAuthenticatedOrReadOnly()]
 
     @action(['GET', 'POST'], detail=True)
@@ -72,6 +75,7 @@ class CommentCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
 
 
 class LikeCreateView(generics.CreateAPIView):
