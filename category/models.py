@@ -12,14 +12,12 @@ class Category(models.Model):
     #     if not self.slug:
     #          self.slug = slugify(self.name)
     #     super().save(*args, **kwargs)
-
+    #
     def __str__(self):
         return self.name
 
 
 @receiver(pre_save, sender=Category)
 def category_pre_save(sender, instance, *args, **kwargs):
-    print(sender, '!!!!!!!!!!!!!')
-    print(instance, '---------------')
     if not instance.slug:
         instance.slug = slugify(instance.name)

@@ -1,5 +1,4 @@
 """iStore URL Configuration
-
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
 Examples:
@@ -47,9 +46,10 @@ urlpatterns = [
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('admin/', admin.site.urls),
-    path('api/v1/accounts/', include('account.urls')),
+    path('api/v1/account/', include('account.urls')),
     path('api/v1/orders/', include('order.urls')),
     path('api/v1/review/', include('rating.urls')),
+    path('api/v1/products/', include('product.urls')),
     path('api/v1/', include(router.urls)),
 ]
 

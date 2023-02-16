@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
-
-from .send_mail import send_confirmation_email
+from drf_yasg.utils import swagger_auto_schema
+from .send_mail import send_confirmation_email, send_reset_email
 from . import serializers
 
 
@@ -16,13 +16,14 @@ User = get_user_model()
 class RegistrationView(APIView):
     permission_classes = (permissions.AllowAny,)
 
+    @swagger_auto_schema(request_body=serializers.RegisterSerializer())
     def post(self, request):
         serializer = serializers.RegisterSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             user = serializer.save()
             if user:
                 try:
-                    send_confirmation_email(user.email, user.activation_code)
+                    send_confirmation_email.delay(user.email, user.activation_code)
                 except:
                     return Response(
                         {
