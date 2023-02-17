@@ -223,8 +223,8 @@ CKEDITOR_CONFIGS = {
 }
 
 
-# CORS_ALLOW_ALL_ORIGINS = True
-
 CORS_ALLOW_ALL_ORIGINS = True
+SITE_ID = 1
+
 
 # SWAGGER_SETTINGS = {"DEFAULT_GENERATOR_CLASS": "rest_framework.schemas.generators.BaseSchemaGenerator",}
