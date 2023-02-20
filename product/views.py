@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import render
+
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions, response, generics
 from rest_framework.decorators import action
@@ -74,6 +75,7 @@ class CommentCreateView(generics.CreateAPIView):
         serializer.save(owner=self.request.user)
 
 
+
 class LikeCreateView(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = serializers.LikeSerializer
@@ -92,4 +94,5 @@ class FavoriteCreateView(generics.CreateAPIView):
     serializer_class = serializers.FavoriteProductSerializer
 
     def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
         serializer.save(owner=self.request.user)
