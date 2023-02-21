@@ -3,7 +3,7 @@ from django.core.mail import send_mail
 
 def send_confirmation_email(user, code):
     full_link = f'http://localhost:8000/api/v1/accounts/activate/{code}/'
-    full_link_server = f'http://35.188.106.94:8000/api/v1/accounts/activate/{code}/'
+    full_link_server = f'http://34.133.58.163/api/v1/account/activate/{code}/'
     send_mail(
         'Здравствуйте, активируйте ваш аккаунт!',
         f'Чтобы активировать ваш аккаунт нужно перейти по ссылке: \n{full_link}\n{full_link_server}',
@@ -23,6 +23,7 @@ def send_notification(user_email, order_id, price):
         [user_email],
         fail_silently=False
     )
+
 
 def send_reset_email(user):
     code = user.activation_code
