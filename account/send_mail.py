@@ -8,6 +8,8 @@ def send_confirmation_email(user, code):
         'Здравствуйте, активируйте ваш аккаунт!',
         f'Чтобы активировать ваш аккаунт нужно перейти по ссылке: \n{full_link}\n{full_link_server}',
         'kazakovdaniar24@gmail.com',
+        [user],
+        fail_silently=False,
 
     )
 
