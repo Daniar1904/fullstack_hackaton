@@ -8,6 +8,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from drf_yasg.utils import swagger_auto_schema
 from .send_mail import send_confirmation_email, send_reset_email
 from . import serializers
+from iStore.tasks import send_confirm_email_task
 
 
 User = get_user_model()
@@ -23,7 +24,7 @@ class RegistrationView(APIView):
             user = serializer.save()
             if user:
                 try:
-                    send_confirmation_email.delay(user.email, user.activation_code)
+                    send_confirm_email_task.delay(user.email, user.activation_code)
                 except:
                     return Response(
                         {
